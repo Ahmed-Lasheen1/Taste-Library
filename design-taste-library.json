@@ -1,0 +1,748 @@
+{
+  "schema_version": "1.0",
+  "library": {
+    "name": "Design Taste Library",
+    "owner": "arubalcaba",
+    "updated": "2026-08-16"
+  },
+  "style_families": [
+    {
+      "id": "print-tech-paper",
+      "label": "Print-Tech Paper",
+      "definition": "Editorial print DNA applied to software — paper-toned grounds, engraved or halftone imagery, small tracked-out labels, one restrained accent. Feels printed rather than rendered.",
+      "accent": "#B4523A",
+      "deploy_for": "Tools and methods that should feel considered and human — where the buyer distrusts marketing polish and is persuaded by evident craft.",
+      "risk": "Render the hero entirely as engraving or halftone and let a dashed route or coordinate marks carry the information architecture instead of headings.",
+      "image_style": "[SUBJECT] rendered as a fine 19th-century steel engraving, dense crosshatch and stipple, greyscale line work with no solid fills, at most one pale wash, isolated on a warm paper ground with generous empty space for typography"
+    },
+    {
+      "id": "brutalist-duotone",
+      "label": "Brutalist Duotone",
+      "definition": "Exactly two colors that swap ground/ink roles between sections. Oversized cropped display type, zero corner radius, stark high-contrast photography. Loud by structure, not by decoration.",
+      "accent": "#EF3124",
+      "deploy_for": "Agencies, portfolios and launches that need to be remembered more than they need to be liked.",
+      "risk": "Set the wordmark at a scale the viewport has to crop, and let one image overlap it.",
+      "image_style": "[SUBJECT] photographed in stark high-contrast monochrome, subject in black against a blown-out or black ground, hard rectangular crop at zero radius, no midtone softness"
+    },
+    {
+      "id": "lush-display-commerce",
+      "label": "Lush Display Commerce",
+      "definition": "Deep saturated grounds alternating with white, polychrome accents, high-contrast display caps with imagery set inline as glyphs. Editorial energy applied to retail.",
+      "accent": "#F0682A",
+      "deploy_for": "Retail and DTC brands with physical product, where warmth and abundance sell better than restraint.",
+      "risk": "Cut a photograph into the headline itself so it sits inline where a word would be.",
+      "image_style": "[SUBJECT] silhouetted cleanly from its background with no shadow, centred on a flat circle of saturated colour, product-catalogue clarity, true-to-life colour"
+    },
+    {
+      "id": "glitched-antiquity",
+      "label": "Glitched Antiquity",
+      "definition": "Greco-Roman or Renaissance figurative art degraded by digital artifacts — RGB channel separation, datamosh, corrupted text — on a near-black ground with iridescent accents. Reverence and corruption in the same frame.",
+      "accent": "#7FD4E8",
+      "deploy_for": "Technical products that want borrowed gravity — finance, infrastructure, AI — where classical authority offsets how new the thing is.",
+      "risk": "Corrupt the navigation itself rather than only the artwork, and let it resolve on hover.",
+      "image_style": "[SUBJECT] rendered as classical artwork in warm sepia and bone, degraded with heavy RGB channel separation streaking off the trailing edge into prismatic fringes, scattered dither artifacts, on a near-black ground"
+    },
+    {
+      "id": "gradient-glass",
+      "label": "Gradient Glass",
+      "definition": "Vivid multi-hue gradient grounds with translucent 3D geometry as the dominant image. Frosted backdrop-blur UI surfaces, centered heavy sans type, high gloss throughout. Depth by material, not by shadow.",
+      "accent": "#9D4DF7",
+      "deploy_for": "Launches with one idea to sell and no product to show yet — crypto, AI, pre-revenue.",
+      "risk": "Spend the entire viewport on a single rendered object and put nothing below the fold.",
+      "image_style": "[SUBJECT] in frosted translucent glass, sharp specular highlights on every leading edge, refracting a vivid multi-hue gradient, studio lit with no visible source, cropped by the frame, seamless gradient ground with no floor plane"
+    },
+    {
+      "id": "painterly-nocturne",
+      "label": "Painterly Nocturne",
+      "definition": "Near-black grounds with hand-painted atmospheric illustration — clouds, weather, sky — as the environment rather than a placed image. Elegant high-contrast serif, achromatic palette, ambient motion held to the periphery.",
+      "accent": "#FCF8F2",
+      "deploy_for": "Calm, considered products — AI assistants, wellness, writing tools — that need to read unhurried rather than urgent.",
+      "risk": "Hold every moving element to the edges and leave the centre of the composition perfectly still.",
+      "image_style": "[SUBJECT] as hand-painted illustration with visible brushwork and feathered edges, warm cream highlights against cool slate shadow on near-black, strictly achromatic, composed with the centre left clear for typography"
+    }
+  ],
+  "trait_vocabulary": "vocabulary.json",
+  "entries": [
+    {
+      "id": "spade",
+      "title": "SPADE",
+      "formula": "print-tech x data",
+      "description": "Transaction-enrichment platform for finance. Technical-survey drawing standing in for messy data made legible.",
+      "style_family": "print-tech-paper",
+      "kind": "shipped",
+      "platform": "web",
+      "source": {
+        "url": "https://spade.com/",
+        "screenshot": "images/spade-hero.png",
+        "captured": "2026-08-07",
+        "attribution": "Spade",
+        "page_type": "landing"
+      },
+      "traits": [
+        "pastel tinted ground",
+        "topographic line art",
+        "mono utility labels",
+        "heavy sans headline",
+        "floating ui card",
+        "scroll linked motion"
+      ],
+      "tokens": {
+        "extraction": "measured",
+        "palette": [
+          {
+            "role": "ground",
+            "hex": "#F4FAED",
+            "name": "sage-1"
+          },
+          {
+            "role": "ink",
+            "hex": "#090F05",
+            "name": "black"
+          },
+          {
+            "role": "surface",
+            "hex": "#FFFFFF",
+            "name": "white"
+          },
+          {
+            "role": "muted",
+            "hex": "#4A5B38",
+            "name": "sage-5"
+          },
+          {
+            "role": "border",
+            "hex": "#D8E5CA",
+            "name": "sage-3"
+          },
+          {
+            "role": "accent",
+            "hex": "#C9753D",
+            "name": "clay"
+          },
+          {
+            "role": "support",
+            "hex": "#D0C4A5",
+            "name": "stone"
+          },
+          {
+            "role": "support",
+            "hex": "#331B09",
+            "name": "earth"
+          }
+        ],
+        "typography": {
+          "display": "naNSuperX (NaN Super X), semibold — large, centered",
+          "body": "polar — fluid clamp() sizing, 13px mobile to 14px desktop base, 1.25/1.333 modular scale",
+          "mono": "polarMono — transaction IDs, coordinates, amounts"
+        },
+        "layout": "Centered single column at --container-width 82.5rem (86.25rem at large); padding 2.5rem mobile / 6rem desktop; hero animation mid-page with product UI fragments over its edges",
+        "texture": "Fine contour line work rendered live in Rive; everything else flat, no grain",
+        "motion": "Measured from the shipped site, not observed rendering. Six Rive runtime animations, incl. homepage-masthead-animation-2.riv (266 KB, 1 artboard / 3 state machines / 3 timelines) driving the hero contour illustration, and homepage-scroller-animation-2.riv for a scroll-driven section. Framer Motion useScroll/useTransform present in two shipped chunks. CSS adds a 25s linear infinite marquee, a Swiper carousel, and state transitions at 250ms and 500ms on ease-in-out / ease-out / cubic-bezier(.4,0,.2,1). Masthead loop mode undetermined — Rive names are all defaults and loop is a binary property not read.",
+        "corner_radius": "8px on cards, 6px on buttons",
+        "density": "balanced"
+      },
+      "brief": "A data-infrastructure landing page that earns trust through technical drawing rather than gloss. Ground the entire page in a pale sage #E7EDE4 — the single most defining choice, and the reason it reads as a survey document instead of another white SaaS page. Headline is a heavy geometric sans set large and centered in near-black, weight doing all the emphasis work: no color, no serif, no italic. Center the hero on a fine topographic contour-line drawing of an abstract mass, pure hairline strokes with no fill or shading. Composite three or four real product-UI fragments over its edges at slight offsets — a transaction row, an ID block, a coordinate pair — each a white 8px-radius card with a barely-there shadow. All metadata inside those fragments is small monospace: transaction IDs, lat/long, dollar amounts. Body copy is centered, muted grey, one short paragraph. Nav is text-only with a single dark button. No gradients, no glass, no illustration color.",
+      "image_recipe": {
+        "target_platform": null,
+        "target_model": null,
+        "resolution": "2K",
+        "aspect_ratio": "1:1",
+        "subject_default": "an abstract eroded geological mass",
+        "template": "[SUBJECT: {{subject}}] rendered as a fine topographic contour-line drawing, evenly spaced hairline contours describing elevation across the form, pure line art with absolutely no fill and no shading, single dark ink #16181A on a transparent ground, technical survey precision as if plotted by machine, isolated and centered with generous empty margin on all sides.",
+        "negatives": [
+          "no fill",
+          "no shading",
+          "no color",
+          "no perspective grid",
+          "no drop shadow"
+        ]
+      },
+      "meta": {
+        "added": "2026-08-07",
+        "steal_this": "",
+        "avoid_this": "The floating UI fragments crowd the drawing's silhouette; fewer, pushed further out, would let the contour form read.",
+        "notes": "Upgraded to measured on 2026-08-12 by pulling the live CSS: palette read from --color-* custom properties, fonts from --font-* (naNSuperX / polar / polarMono). All five originally estimated traits held up, but the hexes did not — estimated ground #E7EDE4 vs actual #F4FAED, and estimated ink #16181A (neutral) vs actual #090F05, which is a green-black, not a grey. Structure survived eyeballing; precise values did not. The floating transaction callouts are Rive-animated, not static overlays — the string UNITED STATES lives inside the .riv. Filed print-tech-paper, but that family says 'warm paper grounds' and this ground is cool sage."
+      }
+    },
+    {
+      "id": "creatiq",
+      "title": "CREATIQ",
+      "formula": "agency brutalism x two-color poster",
+      "description": "Digital branding agency concept. A poster that happens to scroll.",
+      "style_family": "brutalist-duotone",
+      "kind": "concept",
+      "platform": "web",
+      "source": {
+        "url": null,
+        "screenshot": "images/creatiq-hero.png",
+        "captured": "2026-08-07",
+        "attribution": "CREATIQ — designer unattributed in capture",
+        "page_type": "landing"
+      },
+      "traits": [
+        "two color inversion",
+        "heavy sans headline",
+        "oversized cropped wordmark",
+        "micro caps label",
+        "hairline rules",
+        "staggered image row",
+        "boxed arrow button",
+        "stark monochrome photo"
+      ],
+      "tokens": {
+        "extraction": "estimated",
+        "palette": [
+          {
+            "role": "ground",
+            "hex": "#EF3124",
+            "name": "signal red"
+          },
+          {
+            "role": "ink",
+            "hex": "#0A0A0A",
+            "name": "near black"
+          },
+          {
+            "role": "surface",
+            "hex": "#0A0A0A",
+            "name": "black band"
+          }
+        ],
+        "typography": {
+          "display": "Heavy wide grotesk, uppercase, very tight leading, headlines closed with a period",
+          "body": "Same grotesk at ~11px, uppercase, wide tracking",
+          "mono": null
+        },
+        "layout": "Full-width bands alternating red and black with the color pair inverting each time; asymmetric two-column hero; an oversized wordmark cropped by the band edge closes each section",
+        "texture": "Flat. No grain, no gradient — all contrast comes from the two-color inversion",
+        "motion": null,
+        "corner_radius": "0",
+        "density": "compact"
+      },
+      "brief": "An agency page built like a printed poster. Use exactly two colors — #EF3124 signal red and #0A0A0A near-black — and nothing else; every section takes one as ground and the other as ink, then the next section swaps them. That inversion is the only structural device, so no borders, no cards, no shadows, no third color anywhere. Headlines are a heavy wide grotesk in uppercase, set very large at tight leading and closed with a period; weight alone carries the emphasis. Everything that is not a headline is tiny uppercase at ~11px with wide tracking — eyebrows, metadata, and body copy alike, which keeps the scale gap between loud and quiet enormous. Close each section with the wordmark set at absurd scale and cropped by the band edge, so it reads as a field of color rather than a logo. Photography is desaturated to near black-and-white, high contrast, subjects in black; place it in hard rectangles at zero radius and let one image overlap the giant wordmark. Buttons are zero-radius filled rectangles with the arrow in its own bordered box. Form inputs are underlines only. Corner radius is 0 everywhere, without exception.",
+      "image_recipe": null,
+      "meta": {
+        "added": "2026-08-07",
+        "steal_this": "",
+        "avoid_this": "Body copy set in tiny uppercase with wide tracking is close to unreadable past two lines — the About paragraph is already too long for the treatment.",
+        "notes": "Dribbble two-panel presentation shot; states, hovers and long-string behavior unproven. Hero photo uses heavy fisheye distortion and one image overlaps the giant wordmark — both real moves, but single instances here, so not worth traits yet. Second sighting of an oversized wordmark used as a graphic field (see greenie), which is why that one earned a trait."
+      }
+    },
+    {
+      "id": "greenie",
+      "title": "Greenie",
+      "formula": "botanical retail x editorial display",
+      "description": "Houseplant shop concept. Garden-catalog warmth pushed to editorial scale.",
+      "style_family": "lush-display-commerce",
+      "kind": "concept",
+      "platform": "web",
+      "source": {
+        "url": null,
+        "screenshot": "images/greenie-hero.png",
+        "captured": "2026-08-07",
+        "attribution": "Greenie — designer unattributed in capture",
+        "page_type": "commerce"
+      },
+      "traits": [
+        "dark saturated ground",
+        "multi accent palette",
+        "image in headline",
+        "high contrast display",
+        "circular icon button",
+        "spec row product card",
+        "annotated photo pill",
+        "lifestyle photography",
+        "cutout product photo"
+      ],
+      "tokens": {
+        "extraction": "estimated",
+        "palette": [
+          {
+            "role": "ground",
+            "hex": "#0F3B2C",
+            "name": "forest green"
+          },
+          {
+            "role": "surface",
+            "hex": "#FFFFFF",
+            "name": "white"
+          },
+          {
+            "role": "surface",
+            "hex": "#F4F0E1",
+            "name": "cream card"
+          },
+          {
+            "role": "ink",
+            "hex": "#14261D",
+            "name": "green-black"
+          },
+          {
+            "role": "accent",
+            "hex": "#F0682A",
+            "name": "signal orange"
+          },
+          {
+            "role": "support",
+            "hex": "#F3E84F",
+            "name": "acid yellow"
+          },
+          {
+            "role": "support",
+            "hex": "#A8DC6E",
+            "name": "mint"
+          },
+          {
+            "role": "support",
+            "hex": "#F6C9AE",
+            "name": "peach"
+          }
+        ],
+        "typography": {
+          "display": "High-contrast all-caps display, tight leading, small images set inline as glyphs",
+          "body": "Neutral sans, ~13px, generous line-height",
+          "mono": null
+        },
+        "layout": "Full-width bands alternating deep green and white; wide grid of rounded photo and product cards; small orange eyebrow labels paired with oversized section numbers (01, 02)",
+        "texture": "Flat throughout; a scatter of tiny sparkle marks on the dark band only",
+        "motion": null,
+        "corner_radius": "16-24px on photos and cards, fully rounded on buttons and badges",
+        "density": "balanced"
+      },
+      "brief": "A houseplant shop that reads like a garden magazine rather than a storefront. Open on a full-bleed #0F3B2C forest-green band and let the rest of the page alternate between that green and plain white — the switching is the structure, so no section needs a border. Headlines are all-caps in a high-contrast display face with pronounced thick/thin strokes, set large at tight leading, in acid yellow #F3E84F on green and green-black on white. The signature move: cut a small photograph into the headline itself, sitting inline where a word would be — TREE [flower] LOVE, HOUSE [bloom] PLANT. Do it in every section headline; it is the whole personality. Run a polychrome accent set rather than one accent — orange #F0682A for eyebrow labels and oversized section numbers, yellow for display type and backing circles, mint for the nav CTA, peach for one card. Photography is full-color and candid, people actually handling plants, in 16-24px rounded frames; product shots are silhouetted onto flat color circles. Buttons are fully rounded, with small circular arrow buttons overlapping card corners. Product cards end in a ruled row of small-caps attribute labels above their values. No gradients, no shadows beyond the faintest lift on floating pills, no serif body copy.",
+      "image_recipe": {
+        "target_platform": null,
+        "target_model": null,
+        "resolution": "2K",
+        "aspect_ratio": "1:1",
+        "subject_default": "a potted monstera deliciosa in a terracotta pot",
+        "template": "[SUBJECT: {{subject}}] photographed straight-on in soft even daylight, fully silhouetted and cut out from its background with a clean edge, no shadow, then placed centered on a flat circle of solid acid yellow #F3E84F, product-catalog clarity, saturated true-to-life foliage green, isolated with generous margin inside the circle.",
+        "negatives": [
+          "no cast shadow",
+          "no background scene",
+          "no gradient on the circle",
+          "no reflections"
+        ]
+      },
+      "meta": {
+        "added": "2026-08-07",
+        "steal_this": "",
+        "avoid_this": "Section headlines are near-identical in scale and treatment, so the page has no crescendo — five equally loud moments read as none.",
+        "notes": "Dribbble two-panel presentation shot; states, empty cases and long-string behavior unproven. Uses a large ghosted GREENIE wordmark behind one card — see creatiq for the same device played loud."
+      }
+    },
+    {
+      "id": "yieldstream",
+      "title": "YieldStream",
+      "formula": "renaissance marble x signal decay",
+      "description": "DeFi yield aggregator. A classical icon corrupted by the medium carrying it.",
+      "style_family": "glitched-antiquity",
+      "kind": "concept",
+      "platform": "web",
+      "source": {
+        "url": "https://x.com/Lukeedesigner/status/2045588444974321804/video/1",
+        "screenshot": "images/yieldstream-hero.png",
+        "captured": "2026-08-07",
+        "attribution": "@Lukeedesigner",
+        "page_type": "landing"
+      },
+      "traits": [
+        "near black ground",
+        "iridescent accent",
+        "high contrast display",
+        "datamosh glitch",
+        "classical figure art",
+        "outlined ghost button",
+        "full-bleed hero"
+      ],
+      "tokens": {
+        "extraction": "estimated",
+        "palette": [
+          {
+            "role": "ground",
+            "hex": "#0B0A09",
+            "name": "warm near-black"
+          },
+          {
+            "role": "ink",
+            "hex": "#E8E4DC",
+            "name": "bone"
+          },
+          {
+            "role": "muted",
+            "hex": "#8A8580",
+            "name": "ash grey"
+          },
+          {
+            "role": "support",
+            "hex": "#D9BE94",
+            "name": "sepia figure"
+          },
+          {
+            "role": "accent",
+            "hex": "#7FD4E8",
+            "name": "prismatic cyan"
+          },
+          {
+            "role": "accent",
+            "hex": "#F2B5A0",
+            "name": "prismatic warm"
+          }
+        ],
+        "typography": {
+          "display": "High-contrast serif, light weight, mixed case, large with generous leading; wordmark in bold italic serif",
+          "body": "Neutral grotesk, ~15px, ash grey, short measure",
+          "mono": null
+        },
+        "layout": "Asymmetric split — type stack held to the left third, figure occupying the right and bleeding off the right and bottom edges; nav across the top with its items rendered as corrupted glyphs",
+        "texture": "Datamosh — RGB channel separation streaking off the wings, dithered pixel blocks and corrupted text fragments scattered across the ground",
+        "motion": "Glitch animation on the figure and nav text; source is video, so exact behavior is not captured in the still",
+        "corner_radius": "4px on the button",
+        "density": "airy"
+      },
+      "brief": "A DeFi landing page that borrows the authority of a museum and then lets the signal fail. Ground everything in a warm near-black #0B0A09 — not neutral grey, not pure black. Headline is a high-contrast serif at light weight in bone #E8E4DC, mixed case, set large with generous leading and held to the left third of the frame; the restraint on the type side is what licenses the excess on the right. Fill the right half with a Renaissance or Greco-Roman figure — winged, muscular, academic — rendered in warm sepia and bled off both the right and bottom edges so it never reads as a placed image. Then corrupt it: RGB channel separation streaking horizontally off the wings into prismatic cyan and warm fringes, the only chroma anywhere on the page. Scatter dithered pixel blocks and fragments of corrupted, illegible glyphs across the dark ground at low opacity, and run the same corruption through the nav items themselves so the chrome is degraded too. Body copy is a plain grotesk at ~15px in ash grey, deliberately ordinary. One button: transparent fill, hairline bone border, 4px radius. No panels, no cards, no gradients as fills — every color on the page is an optical artifact rather than a chosen swatch.",
+      "image_recipe": {
+        "target_platform": null,
+        "target_model": null,
+        "resolution": "2K",
+        "aspect_ratio": "3:4",
+        "subject_default": "a winged classical male nude in mid-stride, Renaissance academic style",
+        "template": "[SUBJECT: {{subject}}] rendered as a high-detail classical artwork in warm sepia and bone tones, then degraded with heavy RGB channel separation streaking horizontally off the figure's trailing edge into prismatic cyan and warm coral fringes, scattered dithered pixel-block artifacts and corrupted glyph fragments across the surface, isolated on a warm near-black #0B0A09 ground, dramatic single-source lighting, reverent composition undercut by digital decay.",
+        "negatives": [
+          "no clean edges on the trailing side",
+          "no flat color fills",
+          "no modern clothing",
+          "no legible text in the artifacts"
+        ]
+      },
+      "meta": {
+        "added": "2026-08-07",
+        "steal_this": "",
+        "avoid_this": "Glitching the nav items past legibility is a still-frame luxury — in a real build those have to stay clickable and readable, so the effect needs to resolve on hover or settle after load.",
+        "notes": "Captured from a video post, so the motion column is inference from one frame. The iridescence is chromatic aberration rather than a palette, which is why tokens.palette lists only two representative accent hexes — do not treat them as the system."
+      }
+    },
+    {
+      "id": "auradex",
+      "title": "AURADEX",
+      "formula": "glass turbine x gradient field",
+      "description": "Crypto exchange concept. A single rendered object doing the work of an entire page.",
+      "style_family": "gradient-glass",
+      "kind": "concept",
+      "platform": "web",
+      "source": {
+        "url": "https://x.com/Lukeedesigner/status/2043169507779178585/video/1",
+        "screenshot": "images/auradex-hero.png",
+        "captured": "2026-08-07",
+        "attribution": "@Lukeedesigner",
+        "page_type": "landing"
+      },
+      "traits": [
+        "saturated gradient ground",
+        "heavy sans headline",
+        "pill button",
+        "frosted glass surface",
+        "glossy 3d render",
+        "one shot intro"
+      ],
+      "tokens": {
+        "extraction": "estimated",
+        "palette": [
+          {
+            "role": "ground",
+            "hex": "#034ABB",
+            "name": "deep blue"
+          },
+          {
+            "role": "ground",
+            "hex": "#9D4DF7",
+            "name": "violet"
+          },
+          {
+            "role": "ground",
+            "hex": "#F25EA8",
+            "name": "magenta"
+          },
+          {
+            "role": "ink",
+            "hex": "#FDFDFD",
+            "name": "white"
+          },
+          {
+            "role": "surface",
+            "hex": "#1E4BC0",
+            "name": "frosted blue"
+          },
+          {
+            "role": "accent",
+            "hex": "#1F35F6",
+            "name": "blade highlight"
+          }
+        ],
+        "typography": {
+          "display": "Heavy grotesk, uppercase, tightly tracked, centered — one word only",
+          "body": "Regular grotesk, ~15px, white, single line",
+          "mono": null
+        },
+        "layout": "Single full-viewport hero, everything centered on one axis; nav floats over the render with no bar or background; no content visible below the fold",
+        "texture": "High-gloss refraction and specular edge highlights on the 3D blades; smooth gradient elsewhere, no grain",
+        "motion": "One-shot intro measured from the source video: the blade fan rotates and spreads open over ~2.5s with an ease-out, then holds completely static for the remaining 6s. No loop, no ambient drift.",
+        "corner_radius": "Fully rounded on both CTAs",
+        "density": "airy"
+      },
+      "brief": "A crypto exchange landing page that spends its entire budget on one object. Fill the viewport with a single gradient traveling from deep blue #034ABB at the bottom-left through violet #9D4DF7 to magenta #F25EA8 at the top-right — no flat regions, no sections, the gradient is the page. On top of it render one translucent glass form: a radial fan of tapered blades, high gloss, catching specular highlights on every leading edge and refracting the gradient through itself so the color reads as material rather than as background. Center a single word in a heavy grotesk, uppercase, tightly tracked, pure white — the brand name doing double duty as the headline. One line of subhead beneath it, regular weight, and one fully-rounded CTA with a frosted translucent fill so the blades show through it. Nav floats directly over the render with no bar, no background, no divider. Animate the fan open once on load over about 2.5 seconds with a firm ease-out, then stop completely — no loop, no drift, no parallax. Nothing below the fold competes with the hero. No cards, no shadows, no borders except the hairline on the nav CTA.",
+      "image_recipe": {
+        "target_platform": null,
+        "target_model": null,
+        "resolution": "2K",
+        "aspect_ratio": "16:9",
+        "subject_default": "a radial fan of tapered translucent glass blades",
+        "template": "[SUBJECT: {{subject}}] rendered in frosted translucent glass with high gloss, sharp specular highlights along every leading edge, refracting a vivid gradient that travels from deep blue #034ABB through violet #9D4DF7 to magenta #F25EA8, studio lighting with no visible light source, the object filling the frame and cropped by the edges, seamless gradient background with no horizon and no floor.",
+        "negatives": [
+          "no cast shadows",
+          "no floor plane",
+          "no visible light source",
+          "no metallic reflection",
+          "no text"
+        ]
+      },
+      "meta": {
+        "added": "2026-08-07",
+        "steal_this": "",
+        "avoid_this": "White text sits directly on a mid-tone gradient with no scrim — the subhead is already marginal against the lighter violet, and any longer copy would fail contrast outright.",
+        "notes": "Motion is measured, not inferred: pulled the source video and diffed frames at 8fps. Movement runs 0-2.5s then flatlines to zero for the remaining 6s. Palette hexes are sampled from an actual video frame rather than eyeballed, but still marked estimated since there is no CSS. Checked auradex.com (parked, for sale) and auradex.io (unrelated, no matching tagline) — no evidence this shipped, hence concept."
+      }
+    },
+    {
+      "id": "nocturne-ai",
+      "title": "Superintelligence on-device",
+      "formula": "night sky painting x editorial serif",
+      "description": "On-device AI assistant concept. A weather painting used as the whole environment, with the product barely present.",
+      "style_family": "painterly-nocturne",
+      "kind": "concept",
+      "platform": "web",
+      "source": {
+        "url": "https://x.com/Lukeedesigner/status/2054819489825378469/video/1",
+        "screenshot": "images/nocturne-ai-hero.png",
+        "captured": "2026-08-07",
+        "attribution": "@Lukeedesigner",
+        "page_type": "landing"
+      },
+      "traits": [
+        "near black ground",
+        "muted palette",
+        "high contrast display",
+        "pill button",
+        "outlined ghost button",
+        "segmented pill nav",
+        "painterly illustration",
+        "ambient drift"
+      ],
+      "tokens": {
+        "extraction": "estimated",
+        "palette": [
+          {
+            "role": "ground",
+            "hex": "#0D1013",
+            "name": "night"
+          },
+          {
+            "role": "ink",
+            "hex": "#F1F2F2",
+            "name": "moonlight white"
+          },
+          {
+            "role": "muted",
+            "hex": "#D8DADC",
+            "name": "dim grey"
+          },
+          {
+            "role": "support",
+            "hex": "#FCF8F2",
+            "name": "cloud highlight"
+          },
+          {
+            "role": "surface",
+            "hex": "#272D34",
+            "name": "shadowed cloud"
+          },
+          {
+            "role": "border",
+            "hex": "#1B2126",
+            "name": "cloud mid"
+          }
+        ],
+        "typography": {
+          "display": "High-contrast serif, mixed case, large and centered, tight leading across two lines",
+          "body": "Small grotesk for the eyebrow; uppercase grotesk with wide tracking in the CTA",
+          "mono": null
+        },
+        "layout": "Single full-viewport hero, everything centered on one axis; illustration occupies left edge, right edge and bottom, leaving an open well of sky in the middle for the type; nav floats free of the top edge",
+        "texture": "Painterly brushwork with soft cloud edges and visible stroke direction; fine star speckle over the open sky",
+        "motion": "Ambient cloud drift, measured from the source: continuous low-amplitude movement across the full 4.8s with no settle, mean ~1.5 and peak 5.5 (mean abs frame diff). Spatially confined — a 10x6 motion map shows 3.5-5.5 at the left edge, right edge and bottom, against 0.2-0.6 through the centre column where the type sits. The reading area is deliberately still.",
+        "corner_radius": "Fully rounded on nav items and CTA",
+        "density": "airy"
+      },
+      "brief": "An AI product page that behaves like a landscape painting. Ground everything in a cool near-black #0D1013 and fill the left edge, right edge and bottom with hand-painted cumulus clouds — visible brushwork, soft edges, warm cream #FCF8F2 highlights against slate shadow — so the illustration reads as the environment the page sits inside rather than an image placed on it. Leave the centre open as a well of night sky with fine star speckle, and put everything readable in that well: a small grotesk eyebrow, then the headline in a high-contrast serif, mixed case, centred across two lines at large size. Restraint in the chroma is absolute — no hue anywhere, only warm-to-cool neutrals. One CTA, a fully rounded pill with transparent fill and a hairline border. Float the nav free of the top edge as discrete pill items inside a rounded container. Then animate the clouds on a slow continuous drift that never resolves or settles — and keep that motion entirely at the edges, because the centre column has to stay still for the type to be readable. No cards, no shadows, no gradients as fills, no second color.",
+      "image_recipe": {
+        "target_platform": null,
+        "target_model": null,
+        "resolution": "2K",
+        "aspect_ratio": "16:9",
+        "subject_default": "towering cumulus clouds parting to reveal open night sky",
+        "template": "[SUBJECT: {{subject}}] rendered as a hand-painted illustration with visible brushwork and soft feathered edges, warm cream #FCF8F2 highlights against cool slate shadow on a near-black #0D1013 ground, strictly achromatic with no colour hue anywhere, fine star speckle across the open sky, composed so the clouds occupy the left edge right edge and bottom while the centre stays clear and empty for typography, moonlit from above, calm and vast.",
+        "negatives": [
+          "no colour hue",
+          "no photoreal texture",
+          "no sun or warm light source",
+          "no clouds across the centre",
+          "no horizon line"
+        ]
+      },
+      "meta": {
+        "added": "2026-08-07",
+        "steal_this": "",
+        "avoid_this": "The eyebrow at #D8DADC on #0D1013 is fine, but the illustration creeps toward the CTA at the bottom centre — on a shorter viewport the button would sit on painted cloud rather than clear sky and lose its edge.",
+        "notes": "Motion measured from the source video, not inferred: continuous drift with no settle, and a spatial motion map confirming the centre column is held still while the edges move. That peripheral-motion-only discipline is a real reusable move but appears once so far, so it lives here rather than as a trait — watch for a second sighting. Direct counterpart to auradex, which measured as a one-shot that flatlines; same capture method, opposite result."
+      }
+    },
+    {
+      "id": "ramm",
+      "title": "The RAMM Framework",
+      "formula": "survey engraving x coaching funnel",
+      "description": "Goal-setting coaching method. A mountain traverse standing in for the process.",
+      "style_family": "print-tech-paper",
+      "kind": "shipped",
+      "platform": "web",
+      "source": {
+        "url": null,
+        "screenshot": "images/ramm-hero.png",
+        "captured": "2026-08-07",
+        "attribution": "RAMM Framework",
+        "page_type": "landing"
+      },
+      "traits": [
+        "warm paper ground",
+        "single accent hue",
+        "serif headline color accent",
+        "micro caps label",
+        "graph paper grid",
+        "archival engraving",
+        "dashed route path",
+        "annotated photo pill",
+        "pill button",
+        "outlined ghost button"
+      ],
+      "tokens": {
+        "extraction": "estimated",
+        "palette": [
+          {
+            "role": "ground",
+            "hex": "#EDE5DD",
+            "name": "warm paper"
+          },
+          {
+            "role": "ink",
+            "hex": "#382B22",
+            "name": "bistre"
+          },
+          {
+            "role": "accent",
+            "hex": "#D45D32",
+            "name": "clay orange"
+          },
+          {
+            "role": "support",
+            "hex": "#3D281C",
+            "name": "espresso"
+          },
+          {
+            "role": "surface",
+            "hex": "#FFFFFF",
+            "name": "label white"
+          },
+          {
+            "role": "border",
+            "hex": "#DDD3C8",
+            "name": "grid rule"
+          }
+        ],
+        "typography": {
+          "display": "Transitional serif, bold, mixed case, centred over two lines",
+          "body": "Small serif for the closing line",
+          "mono": null
+        },
+        "layout": "Full-width engraved mountain range spanning edge to edge with a valley at centre; type stack sits in the valley; nav floats on the paper ground above",
+        "texture": "Fine crosshatch engraving on the peaks with pale peach wash on some slopes; faint ruled grid across the whole ground",
+        "motion": null,
+        "corner_radius": "Fully rounded on buttons and waypoint labels",
+        "density": "airy"
+      },
+      "brief": "A coaching landing page that presents its method as a surveyed route. Ground the page in warm paper #EDE5DD and rule a faint grid across the whole thing so it reads as a working document rather than a brochure. Run a fine crosshatch-engraved mountain range edge to edge, left and right, with a deliberate valley at centre — the engraving stays greyscale except for pale peach washes on a few slopes. Put every readable element in that valley: a bold transitional serif headline across two lines with the brand word alone in clay orange #D45D32, a tiny tracked-out caps tagline beneath it, and one espresso #3D281C fully-rounded CTA. Then trace a dashed clay-orange path across the peaks, left to right, with small circular nodes at four points and a white pill label on each naming a stage. That path is the entire information architecture — it says the method is a journey before a single word is read. Orange appears nowhere else. Keep a transparent dashed-border pill in the nav so the dashed motif reads as a system rather than a one-off. No shadows, no photography, no second accent.",
+      "image_recipe": {
+        "target_platform": null,
+        "target_model": null,
+        "resolution": "2K",
+        "aspect_ratio": "21:9",
+        "subject_default": "a rugged alpine mountain range with a broad valley at centre",
+        "template": "[SUBJECT: {{subject}}] rendered as a fine 19th-century steel engraving, dense crosshatch and stipple shading, greyscale line work with no solid fills, pale peach wash on a few slope faces only, composed as a wide panorama with peaks at the left and right edges and a clear open valley through the centre for typography, isolated on a warm paper #EDE5DD ground with no sky tone.",
+        "negatives": [
+          "no colour beyond the pale peach wash",
+          "no sky",
+          "no photoreal texture",
+          "no peaks across the centre"
+        ]
+      },
+      "meta": {
+        "added": "2026-08-14",
+        "steal_this": "",
+        "avoid_this": "The waypoint labels sit at four different heights with no alignment logic, so the eye hunts for reading order along a path that is meant to be sequential.",
+        "notes": "Tokens estimated from the screenshot — palette sampled from pixels, accent found by saturation search rather than eyeballed. rammframework.com returned 200 but content was never verified, so kind is from the capture itself (browser chrome and a visible cursor) rather than confirmed."
+      }
+    }
+  ],
+  "dna": {
+    "name": "House DNA",
+    "description": "Constants that run under every family, appended to every brief. Derived from what actually recurs across the entries — evidence counts are shown so you can cut what is thin. The never-list matters as much as the constants: it governs everything a brief does not explicitly specify.",
+    "constants": [
+      {
+        "rule": "One processed image carries the page — engraving, render, painterly illustration, line art or glitched artwork. Never an icon grid or a collage of feature screenshots.",
+        "evidence": "7 of 7 entries"
+      },
+      {
+        "rule": "Type at extremes — a large display face against small tracked-out caps, with almost nothing in the middle.",
+        "evidence": "6 of 7 entries"
+      },
+      {
+        "rule": "Capsule or hairline-outlined CTAs. The button stays quiet relative to the type.",
+        "evidence": "6 of 7 entries"
+      },
+      {
+        "rule": "Chromatic restraint — one accent, or a deliberate two-colour system. Never an evenly distributed palette.",
+        "evidence": "5 of 7 entries state it explicitly"
+      },
+      {
+        "rule": "Flat surfaces. No shadows and no gradients used as fills; depth comes from contrast, overlap and scale.",
+        "evidence": "5 of 7 entries state it explicitly"
+      },
+      {
+        "rule": "Structure without containers — bands, rules and negative space instead of cards and panels.",
+        "evidence": "4 of 7 entries state it explicitly"
+      },
+      {
+        "rule": "Motion is decided, not decorative: either it settles completely or it never stops, and it stays clear of the reading area.",
+        "evidence": "3 of 7 entries, all measured"
+      }
+    ],
+    "never": [
+      "Drop shadows and soft elevation",
+      "Gradients used as surface fills",
+      "Card grids and panel containers as the default structure",
+      "A second accent colour added for variety",
+      "Evenly distributed colourful palettes",
+      "Icon-grid feature rows",
+      "Untreated stock photography",
+      "System-font-only typography"
+    ]
+  }
+}

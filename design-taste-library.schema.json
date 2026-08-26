@@ -1,0 +1,435 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://arubalcaba.dev/schemas/design-taste-library/1.0",
+  "title": "Design Taste Library",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "style_families",
+    "entries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "library": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "string",
+          "format": "date"
+        },
+        "images_path": {
+          "type": "string",
+          "description": "Optional fallback only. serve.py writes the real value to local.json (gitignored) at runtime, so committed data stays machine-independent."
+        }
+      },
+      "additionalProperties": false
+    },
+    "trait_vocabulary": {
+      "type": "string",
+      "description": "Relative path to the controlled vocabulary. Every entry trait must resolve to a canonical id or alias in that file."
+    },
+    "style_families": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "definition"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+            "description": "kebab-case. Referenced by entry.style_family."
+          },
+          "label": {
+            "type": "string"
+          },
+          "definition": {
+            "type": "string",
+            "description": "One or two sentences. Write this before adding the second entry to a family, or the family becomes a junk drawer."
+          },
+          "accent": {
+            "$ref": "#/$defs/hex"
+          },
+          "deploy_for": {
+            "type": "string",
+            "description": "When to reach for this family. What the definition cannot tell you."
+          },
+          "risk": {
+            "type": "string",
+            "description": "One bold move to counteract safe averaging."
+          },
+          "image_style": {
+            "type": "string",
+            "description": "Family-level image recipe with a [SUBJECT] slot, for generating on-brand art without a specific entry."
+          }
+        }
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/entry"
+      }
+    },
+    "dna": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Constants that run under every family. Appended to every brief — this is what makes output recognisably yours regardless of which look you deploy.",
+      "required": [
+        "constants",
+        "never"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "constants": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "rule"
+            ],
+            "properties": {
+              "rule": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string",
+                "description": "How many entries support this. Thin evidence means edit or cut it."
+              }
+            }
+          }
+        },
+        "never": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The anti-slop guardrail. Matters as much as the constants — it governs everything the brief does not explicitly specify."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "hex": {
+      "type": "string",
+      "pattern": "^#([0-9A-Fa-f]{6})$"
+    },
+    "entry": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "description",
+        "style_family",
+        "kind",
+        "source",
+        "traits"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Stable slug. Never reuse or rename — it is the permalink."
+        },
+        "title": {
+          "type": "string"
+        },
+        "formula": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The 'x' line, e.g. 'editorial x voxel 3D'. Two design registers in tension. Optional but it is the fastest way to recall an entry."
+        },
+        "description": {
+          "type": "string",
+          "description": "One sentence. What the site IS, not what it looks like — looks belong in traits."
+        },
+        "style_family": {
+          "type": "string",
+          "description": "Exactly one style_families[].id. Single-select by design; use traits for cross-cutting."
+        },
+        "kind": {
+          "enum": [
+            "shipped",
+            "concept",
+            "mine"
+          ],
+          "description": "'shipped' = a real live product. 'concept' = someone else's unbuilt idea (most Dribbble). 'mine' = your own direction. Never prompt a production layout from an unlabeled concept."
+        },
+        "platform": {
+          "enum": [
+            "web",
+            "mobile",
+            "desktop"
+          ],
+          "description": "Mobbin is mostly mobile; a bottom-sheet pattern is bad advice for a marketing page."
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "screenshot"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "url": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri"
+            },
+            "screenshot": {
+              "type": "string",
+              "description": "Relative path, e.g. images/foo.png"
+            },
+            "captured": {
+              "type": "string",
+              "format": "date"
+            },
+            "attribution": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "page_type": {
+              "enum": [
+                "landing",
+                "app",
+                "docs",
+                "portfolio",
+                "editorial",
+                "commerce",
+                "auth",
+                "other"
+              ]
+            }
+          }
+        },
+        "traits": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "description": "Display chips AND the cross-cutting filter layer. Lowercase noun phrases. Reuse verbatim across entries so they aggregate."
+        },
+        "tokens": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "description": "The machine-usable extraction. This is what you paste into a build prompt.",
+          "properties": {
+            "extraction": {
+              "enum": [
+                "measured",
+                "estimated"
+              ],
+              "description": "'measured' = pulled from the live page's CSS. 'estimated' = read off a screenshot by eye. A Dribbble shot can only ever be estimated — do not trust those hexes to the digit."
+            },
+            "palette": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "role",
+                  "hex"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "role": {
+                    "enum": [
+                      "ground",
+                      "ink",
+                      "primary",
+                      "accent",
+                      "support",
+                      "muted",
+                      "surface",
+                      "border"
+                    ]
+                  },
+                  "hex": {
+                    "$ref": "#/$defs/hex"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Human name, e.g. 'warm paper'. Useful verbatim inside image prompts."
+                  }
+                }
+              }
+            },
+            "typography": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "display": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "body": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "mono": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              }
+            },
+            "layout": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "texture": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "motion": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "corner_radius": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "density": {
+              "enum": [
+                "airy",
+                "balanced",
+                "compact",
+                null
+              ]
+            }
+          }
+        },
+        "brief": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "COPY BRIEF payload. Reverse-engineered build prompt, written as instructions to a builder. Prefer imperative and absolute values ('#F7F4EC ground') over adjectives ('warm background')."
+        },
+        "image_recipe": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "template"
+          ],
+          "additionalProperties": false,
+          "description": "COPY IMAGE PROMPT payload. Null when the entry's imagery is photographic or not reproducible.",
+          "properties": {
+            "target_platform": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "target_model": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "resolution": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "aspect_ratio": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "subject_default": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Fills {{subject}} when you just want to copy and go."
+            },
+            "template": {
+              "type": "string",
+              "description": "Must contain the literal {{subject}} placeholder so the subject can be swapped per use."
+            },
+            "negatives": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "added": {
+              "type": "string",
+              "format": "date"
+            },
+            "rating": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            },
+            "steal_this": {
+              "type": "string",
+              "description": "The one specific move worth reusing. Forces a judgment instead of passive collecting."
+            },
+            "avoid_this": {
+              "type": "string"
+            },
+            "notes": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

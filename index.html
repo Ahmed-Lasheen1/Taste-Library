@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Taste Library</title>
+<style>
+:root{
+  --paper:#F2EDE5;
+  --card:#FCFAF6;
+  --recipe:#FBF8E4;
+  --ink:#1A1815;
+  --soft:#6E655A;
+  --faint:#A79C8D;
+  --rust:#B5502F;
+  --line:#1A1815;
+  --hair:#D8D0C3;
+  --serif:'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+  --mono:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(rgba(26,24,21,.030) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(26,24,21,.030) 1px,transparent 1px);
+  background-size:34px 34px;
+  color:var(--ink);
+  font-family:var(--mono);
+  font-size:13px;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1360px;margin:0 auto;padding:34px 30px 80px}
+
+/* ---------- masthead ---------- */
+.masthead{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:14px}
+.masthead h1{font-family:var(--serif);font-size:26px;font-weight:400;letter-spacing:-.01em;margin:0}
+.stats{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--soft)}
+.stats b{color:var(--rust);font-weight:400}
+.rule{border:0;border-top:1.5px solid var(--line);margin:0 0 22px}
+
+/* ---------- filters ---------- */
+.bar{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:10px}
+.pill{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.10em;text-transform:uppercase;
+  background:transparent;color:var(--ink);border:1px solid var(--line);
+  padding:9px 15px;cursor:pointer;border-radius:0;line-height:1;
+  transition:background-color .12s,color .12s;
+}
+.pill .n{color:var(--rust);margin-left:9px}
+.pill:hover{background:rgba(26,24,21,.06)}
+.pill[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.pill[aria-pressed="true"] .n{color:#E8B79F}
+.pill .dia{color:var(--rust);margin-right:7px}
+.pill[aria-pressed="true"] .dia{color:#E8B79F}
+.bar.sub .pill{border-style:dashed}
+
+.toolrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:16px 0 24px}
+#search{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--card);border:1px solid var(--line);color:var(--ink);
+  padding:9px 13px;width:250px;border-radius:0;
+}
+#search::placeholder{color:var(--faint);text-transform:uppercase}
+#search:focus{outline:2px solid var(--rust);outline-offset:-1px}
+.activefilter{
+  display:none;align-items:center;gap:9px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  background:var(--rust);color:#fff;padding:9px 13px;
+}
+.activefilter.on{display:inline-flex}
+.activefilter button{background:none;border:0;color:#fff;cursor:pointer;font:inherit;padding:0;opacity:.8}
+.activefilter button:hover{opacity:1}
+.count{margin-left:auto;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--soft)}
+
+/* ---------- grid ---------- */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+@media(max-width:1050px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.grid{grid-template-columns:1fr}.wrap{padding:22px 16px 60px}}
+
+.card{
+  background:var(--card);border:1px solid var(--line);cursor:pointer;
+  display:flex;flex-direction:column;text-align:left;padding:0;font:inherit;color:inherit;
+  transition:transform .13s ease,box-shadow .13s ease;
+}
+.card:hover{transform:translateY(-3px);box-shadow:5px 5px 0 rgba(26,24,21,.16)}
+.card:focus-visible{outline:2px solid var(--rust);outline-offset:2px}
+.shot{aspect-ratio:16/10;overflow:hidden;border-bottom:1px solid var(--line);background:#E7E1D6}
+.shot img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.body{padding:15px 16px 13px;display:flex;flex-direction:column;gap:11px;flex:1}
+.titlerow{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.titlerow h2{font-family:var(--serif);font-size:20px;font-weight:400;margin:0;letter-spacing:-.01em}
+.formula{font-size:11px;color:var(--soft);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52%}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.02em;
+  background:rgba(26,24,21,.045);border:1px solid var(--hair);color:var(--ink);
+  padding:5px 8px;cursor:pointer;border-radius:0;line-height:1.25;
+}
+.chip:hover{border-color:var(--rust);color:var(--rust)}
+.more{font-size:10.5px;color:var(--faint);align-self:center;padding-left:2px}
+.foot{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  margin-top:auto;padding-top:11px;border-top:1px dashed var(--hair);
+  font-size:11px;letter-spacing:.04em;
+}
+.fam{color:var(--ink)}
+.fam .dia{color:var(--rust);margin-right:7px}
+.idx{color:var(--faint);letter-spacing:.09em}
+.badge{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 6px;border:1px solid var(--hair);color:var(--soft)}
+.badge.measured{border-color:var(--rust);color:var(--rust)}
+
+.empty{grid-column:1/-1;text-align:center;padding:70px 20px;color:var(--soft);font-size:12px;letter-spacing:.09em;text-transform:uppercase}
+
+/* ---------- house dna ---------- */
+details.dna{border:1px solid var(--line);background:var(--card);margin-bottom:22px}
+details.dna>summary{
+  cursor:pointer;list-style:none;padding:13px 17px;display:flex;justify-content:space-between;align-items:center;
+  font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;
+}
+details.dna>summary::-webkit-details-marker{display:none}
+details.dna>summary:hover{background:rgba(26,24,21,.04)}
+details.dna>summary .sec-no{color:var(--faint);letter-spacing:.1em}
+details.dna[open]>summary{border-bottom:1px dashed var(--hair)}
+.dnagrid{display:grid;grid-template-columns:1.35fr 1fr;gap:26px;padding:19px 17px 20px}
+@media(max-width:760px){.dnagrid{grid-template-columns:1fr;gap:20px}}
+.dnagrid h4{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--soft);margin:0 0 10px;font-weight:400}
+.dnagrid ul{margin:0;padding-left:16px;font-size:12px;line-height:1.62}
+.dnagrid li{margin-bottom:8px}
+.dnagrid .ev{color:var(--faint);font-size:10px;letter-spacing:.06em;display:block;margin-top:2px}
+.dnagrid .never li{color:#8C3B22}
+.dnafoot{padding:0 17px 16px;font-size:10.5px;color:var(--faint);line-height:1.5}
+
+/* ---------- family panel ---------- */
+.fampanel{border:1px solid var(--line);background:var(--card);padding:19px 20px;margin-bottom:24px}
+.fampanel .fhead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.fampanel h3{font-family:var(--serif);font-size:21px;font-weight:400;margin:0}
+.fampanel .fdef{font-size:12px;line-height:1.6;color:var(--soft);margin:9px 0 0;max-width:82ch}
+.fampanel .frow{display:flex;gap:9px;align-items:baseline;margin-top:11px;font-size:11.5px;line-height:1.55}
+.fampanel .frow b{font-weight:400;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);white-space:nowrap;min-width:78px}
+.fampanel .frow.risk span{color:var(--rust)}
+.fampanel .facts{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+
+/* ---------- modal ---------- */
+.backdrop{
+  position:fixed;inset:0;background:rgba(26,24,21,.44);
+  display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:38px 20px;z-index:50;
+}
+.backdrop.on{display:flex}
+.modal{background:var(--card);border:1px solid var(--line);max-width:1000px;width:100%;box-shadow:0 24px 60px rgba(26,24,21,.3)}
+.modal .hero{border-bottom:1.5px solid var(--line);background:#E7E1D6;max-height:52vh;overflow:hidden}
+.modal .hero img{width:100%;display:block;object-fit:cover}
+.mbody{padding:26px 30px 30px}
+.mhead{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.mhead h2{font-family:var(--serif);font-size:31px;font-weight:400;margin:0;letter-spacing:-.015em}
+.mhead .formula{font-size:12px;max-width:none}
+.desc{font-family:var(--serif);font-size:16px;line-height:1.5;color:var(--soft);margin:11px 0 20px;max-width:70ch}
+.mchips{margin-bottom:22px}
+.mchips .chip{font-size:11.5px;padding:7px 11px}
+
+.sec{margin-bottom:20px}
+.sec h3{font-size:10.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--soft);margin:0 0 10px;font-weight:400}
+.swatches{display:flex;flex-wrap:wrap;gap:7px}
+.sw{display:flex;align-items:center;gap:8px;border:1px solid var(--hair);padding:5px 9px 5px 5px;font-size:10.5px}
+.sw i{width:19px;height:19px;display:block;border:1px solid rgba(26,24,21,.22)}
+.sw span{color:var(--soft)}
+.sw b{font-weight:400;letter-spacing:.03em}
+dl.tok{margin:0;display:grid;grid-template-columns:118px 1fr;gap:7px 16px;font-size:11.5px;line-height:1.55}
+dl.tok dt{color:var(--faint);letter-spacing:.09em;text-transform:uppercase;font-size:10px;padding-top:2px}
+dl.tok dd{margin:0;color:var(--ink)}
+.brief{
+  font-family:var(--serif);font-size:14.5px;line-height:1.62;color:var(--ink);
+  background:rgba(26,24,21,.032);border-left:2px solid var(--rust);padding:15px 18px;
+}
+.recipe{background:var(--recipe);border:1px dashed var(--rust);padding:15px 17px;font-size:11.5px;line-height:1.65}
+.recipe .rhead{color:var(--rust);letter-spacing:.05em;margin-bottom:10px}
+.recipe mark{background:#F2E9B8;color:var(--ink);padding:1px 3px}
+.negs{margin-top:11px;padding-top:10px;border-top:1px dashed rgba(181,80,47,.4);color:var(--soft);font-size:10.5px;letter-spacing:.04em}
+.note{font-size:11.5px;line-height:1.6;color:var(--soft)}
+.note b{color:var(--ink);font-weight:400}
+.note .missing{color:var(--rust)}
+
+.actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:26px;padding-top:22px;border-top:1px dashed var(--hair)}
+.btn{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.11em;text-transform:uppercase;
+  padding:12px 20px;border:1px solid var(--line);cursor:pointer;border-radius:0;line-height:1;
+  background:var(--ink);color:var(--paper);transition:opacity .12s;
+}
+.btn:hover{opacity:.84}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:rgba(26,24,21,.06)}
+.btn.done{background:var(--rust);border-color:var(--rust);color:#fff}
+.btn:disabled{opacity:.32;cursor:not-allowed}
+.nav{margin-left:auto;display:flex;gap:11px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="masthead">
+    <h1>Design Taste Library</h1>
+    <div class="stats" id="stats"></div>
+  </div>
+  <hr class="rule">
+
+  <details class="dna" id="dnaPanel">
+    <summary><span>House DNA — constants under every family</span><span class="sec-no">§ 00</span></summary>
+    <div class="dnagrid">
+      <div><h4>Always</h4><ul id="dnaConstants"></ul></div>
+      <div><h4>Never</h4><ul class="never" id="dnaNever"></ul></div>
+    </div>
+    <div class="dnafoot" id="dnaFoot"></div>
+  </details>
+
+  <div class="bar" id="familyBar"></div>
+  <div class="bar sub" id="kindBar"></div>
+
+  <div class="toolrow">
+    <input id="search" type="search" placeholder="Search…" autocomplete="off" aria-label="Search entries">
+    <div class="activefilter" id="activeTrait">
+      <span id="activeTraitLabel"></span>
+      <button type="button" id="clearTrait" aria-label="Clear trait filter">&times;</button>
+    </div>
+    <div class="count" id="resultCount"></div>
+  </div>
+
+  <div id="famPanel"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="backdrop" id="backdrop" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const el = (t, c, txt) => { const n = document.createElement(t); if (c) n.className = c; if (txt != null) n.textContent = txt; return n; };
+const pad = n => String(n).padStart(2, '0');
+
+let LIB, VOCAB, TRAIT_BY_KEY = new Map();
+const state = { family: 'all', kinds: new Set(), trait: null, q: '', open: null };
+
+// Entries store trait labels; vocabulary owns canonical labels + aliases.
+// Resolve through both so a stale alias in an entry still lands on the right trait.
+function buildTraitIndex(vocab) {
+  const m = new Map();
+  for (const t of vocab.traits) {
+    m.set(t.label.toLowerCase(), t);
+    m.set(t.id.toLowerCase(), t);
+    for (const a of t.aliases || []) m.set(a.toLowerCase(), t);
+  }
+  return m;
+}
+const resolve = raw => TRAIT_BY_KEY.get(String(raw).toLowerCase()) || null;
+const traitLabel = raw => (resolve(raw)?.label) ?? raw;
+
+function entryTraits(e) {
+  const seen = new Set(), out = [];
+  for (const raw of e.traits || []) {
+    const label = traitLabel(raw);
+    if (!seen.has(label)) { seen.add(label); out.push(label); }
+  }
+  return out;
+}
+
+function matches(e) {
+  if (state.family !== 'all' && e.style_family !== state.family) return false;
+  if (state.kinds.size && !state.kinds.has(e.kind)) return false;
+  if (state.trait && !entryTraits(e).includes(state.trait)) return false;
+  if (state.q) {
+    const hay = [e.title, e.description, e.formula, e.brief, ...entryTraits(e)].join(' ').toLowerCase();
+    if (!hay.includes(state.q)) return false;
+  }
+  return true;
+}
+
+/* counts respect every filter EXCEPT the dimension being counted, so a pill
+   always shows what you'd get by clicking it rather than a frozen total */
+function countBy(dim, value) {
+  const saved = { family: state.family, kinds: state.kinds };
+  if (dim === 'family') state.family = 'all';
+  if (dim === 'kind') state.kinds = new Set();
+  const n = LIB.entries.filter(e => matches(e) &&
+    (dim === 'family' ? (value === 'all' || e.style_family === value) : e.kind === value)).length;
+  state.family = saved.family; state.kinds = saved.kinds;
+  return n;
+}
+
+function renderFilters() {
+  const fb = $('#familyBar'); fb.innerHTML = '';
+  const mk = (label, n, pressed, onClick, dia) => {
+    const b = el('button', 'pill');
+    b.type = 'button';
+    b.setAttribute('aria-pressed', String(pressed));
+    if (dia) b.appendChild(el('span', 'dia', '◈'));
+    b.appendChild(document.createTextNode(label));
+    b.appendChild(el('span', 'n', n));
+    b.onclick = onClick;
+    return b;
+  };
+  fb.appendChild(mk('All', countBy('family', 'all'), state.family === 'all',
+    () => { state.family = 'all'; render(); }));
+  for (const f of LIB.style_families) {
+    fb.appendChild(mk(f.label, countBy('family', f.id), state.family === f.id,
+      () => { state.family = state.family === f.id ? 'all' : f.id; render(); }));
+  }
+
+  const kb = $('#kindBar'); kb.innerHTML = '';
+  const kinds = [...new Set(LIB.entries.map(e => e.kind))].sort();
+  for (const k of kinds) {
+    kb.appendChild(mk(k, countBy('kind', k), state.kinds.has(k), () => {
+      state.kinds.has(k) ? state.kinds.delete(k) : state.kinds.add(k);
+      render();
+    }, true));
+  }
+}
+
+function card(e, i, total) {
+  const b = el('button', 'card');
+  b.type = 'button';
+
+  const shot = el('div', 'shot');
+  const img = el('img');
+  img.src = `images/thumbs/${e.id}.jpg`;
+  img.alt = e.title;
+  img.loading = 'lazy';
+  // fall back to the full-size capture if a thumbnail was never generated
+  img.onerror = () => { img.onerror = null; img.src = e.source.screenshot; };
+  shot.appendChild(img);
+  b.appendChild(shot);
+
+  const body = el('div', 'body');
+  const tr = el('div', 'titlerow');
+  const h = el('h2', null, e.title); h.id = '';
+  tr.appendChild(h);
+  if (e.formula) tr.appendChild(el('div', 'formula', e.formula));
+  body.appendChild(tr);
+
+  const traits = entryTraits(e);
+  const chips = el('div', 'chips');
+  for (const t of traits.slice(0, 3)) {
+    const c = el('button', 'chip', t);
+    c.type = 'button';
+    c.onclick = ev => { ev.stopPropagation(); state.trait = state.trait === t ? null : t; render(); };
+    chips.appendChild(c);
+  }
+  if (traits.length > 3) chips.appendChild(el('span', 'more', `+${traits.length - 3}`));
+  body.appendChild(chips);
+
+  const foot = el('div', 'foot');
+  const fam = el('div', 'fam');
+  fam.appendChild(el('span', 'dia', '◆'));
+  fam.appendChild(document.createTextNode(
+    LIB.style_families.find(f => f.id === e.style_family)?.label ?? e.style_family));
+  foot.appendChild(fam);
+  const right = el('div');
+  right.style.cssText = 'display:flex;align-items:center;gap:9px';
+  right.appendChild(el('span', 'badge' + (e.tokens?.extraction === 'measured' ? ' measured' : ''),
+    e.tokens?.extraction ?? '—'));
+  right.appendChild(el('span', 'idx', `${pad(i + 1)} / ${pad(total)}`));
+  foot.appendChild(right);
+  body.appendChild(foot);
+
+  b.appendChild(body);
+  b.onclick = () => openModal(e.id);
+  return b;
+}
+
+function render() {
+  renderFilters();
+  renderFamilyPanel();
+  const list = LIB.entries.filter(matches);
+  const grid = $('#grid');
+  grid.innerHTML = '';
+  if (!list.length) {
+    grid.appendChild(el('div', 'empty', 'No entries match these filters'));
+  } else {
+    list.forEach((e, i) => grid.appendChild(card(e, i, list.length)));
+  }
+
+  const at = $('#activeTrait');
+  at.classList.toggle('on', !!state.trait);
+  if (state.trait) $('#activeTraitLabel').textContent = `trait: ${state.trait}`;
+
+  $('#resultCount').textContent =
+    `${list.length} of ${LIB.entries.length} ${list.length === 1 ? 'entry' : 'entries'}`;
+}
+
+/* ---------- modal ---------- */
+function section(title, node) {
+  const s = el('div', 'sec');
+  s.appendChild(el('h3', null, title));
+  s.appendChild(node);
+  return s;
+}
+
+function filledPrompt(r) {
+  if (!r) return '';
+  return r.template.replace(/\{\{subject\}\}/g, r.subject_default || 'SUBJECT');
+}
+
+/* ---------- brief assembly ----------
+   Absolute image paths are deliberate: pasted into Claude Code from any project
+   directory, they let it open the reference screenshot rather than just read about it.
+
+   The path comes from local.json, which serve.py rewrites on every run — so the
+   committed data stays machine-independent and this works on any clone. If the page
+   is served some other way, briefs fall back to repo-relative paths. */
+let IMAGES_PATH = '';
+const imgAbs = e =>
+  IMAGES_PATH ? IMAGES_PATH + e.source.screenshot.replace(/^images\//, '')
+              : e.source.screenshot;
+
+function dnaBlock() {
+  const d = LIB.dna;
+  if (!d) return '';
+  return [
+    'HOUSE DNA — these hold regardless of the look',
+    ...d.constants.map(c => '- ' + c.rule),
+    '',
+    'NEVER',
+    ...d.never.map(n => '- ' + n),
+  ].join('\n');
+}
+
+function paletteLine(e) {
+  const p = e.tokens?.palette;
+  if (!p?.length) return '';
+  return `PALETTE (${e.tokens.extraction}) — ` +
+    p.map(x => `${x.hex} ${x.role}${x.name ? ' ' + x.name : ''}`).join(' · ');
+}
+
+/* single entry: everything needed to rebuild this one page */
+function entryBrief(e) {
+  const fam = LIB.style_families.find(f => f.id === e.style_family);
+  const out = [
+    `AESTHETIC — ${e.title}${e.formula ? ' (' + e.formula + ')' : ''}`,
+    fam ? `Family: ${fam.label} — ${fam.definition}` : '',
+    `Provenance: ${e.kind}${e.kind === 'concept' ? ' — an unbuilt idea; states, empty cases and long strings are unproven' : ''}`,
+    '',
+    `REFERENCE IMAGE — ${imgAbs(e)}`,
+    '',
+    'VOCABULARY — ' + entryTraits(e).join(' · '),
+    '',
+    paletteLine(e),
+  ];
+  const tk = e.tokens || {};
+  if (tk.typography?.display) out.push(`TYPE — display: ${tk.typography.display}` +
+    (tk.typography.body ? ` / body: ${tk.typography.body}` : '') +
+    (tk.typography.mono ? ` / mono: ${tk.typography.mono}` : ''));
+  if (tk.layout) out.push(`LAYOUT — ${tk.layout}`);
+  if (tk.motion) out.push(`MOTION — ${tk.motion}`);
+  out.push('', 'BRIEF', e.brief || '(none written)');
+  if (e.meta?.steal_this) out.push('', `STEAL — ${e.meta.steal_this}`);
+  if (e.meta?.avoid_this) out.push('', `WATCH — ${e.meta.avoid_this}`);
+  out.push('', dnaBlock());
+  if (e.image_recipe) out.push('', 'HERO ASSET — generate at 2K, then hand it to the build alongside this brief',
+    filledPrompt(e.image_recipe),
+    e.image_recipe.negatives?.length ? 'Avoid: ' + e.image_recipe.negatives.join(', ') : '');
+  return out.filter(x => x !== '' || true).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+/* whole family: the block you paste at the top of a new project */
+function familyBrief(famId) {
+  const fam = LIB.style_families.find(f => f.id === famId);
+  if (!fam) return '';
+  const members = LIB.entries.filter(e => e.style_family === famId);
+  const vocab = [...new Set(members.flatMap(entryTraits))];
+  const out = [
+    `AESTHETIC — ${fam.label}`,
+    fam.definition,
+    fam.deploy_for ? `Deploy for: ${fam.deploy_for}` : '',
+    '',
+    'VOCABULARY — ' + vocab.join(' · '),
+    '',
+    `REFERENCES (${members.length})`,
+  ];
+  for (const e of members) {
+    out.push(`- ${e.title}${e.formula ? ' — ' + e.formula : ''} [${e.kind}]`);
+    out.push(`  image: ${imgAbs(e)}`);
+    out.push(`  ${e.description}`);
+    if (e.meta?.steal_this) out.push(`  steal: ${e.meta.steal_this}`);
+  }
+  const measured = members.find(e => e.tokens?.extraction === 'measured') || members[0];
+  if (measured) out.push('', paletteLine(measured));
+  out.push('', dnaBlock());
+  if (fam.risk) out.push('', `ONE RISK — take this deliberately, to avoid a safe average`, fam.risk);
+  if (fam.image_style) out.push('', 'HERO ASSET — replace [SUBJECT], generate at 2K', fam.image_style);
+  out.push('', 'INTENT — (describe what this site is for, then run 5 versions → 3 variations → 1 refined)');
+  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+
+function copyButton(label, getText, cls) {
+  const b = el('button', 'btn' + (cls ? ' ' + cls : ''), label);
+  b.type = 'button';
+  b.onclick = async ev => {
+    ev.stopPropagation();
+    const text = typeof getText === 'function' ? getText() : getText;
+    if (!text) return;
+    try { await navigator.clipboard.writeText(text); }
+    catch {
+      const ta = el('textarea'); ta.value = text; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy'); ta.remove();
+    }
+    const old = b.textContent;
+    b.textContent = 'Copied ✓'; b.classList.add('done');
+    setTimeout(() => { b.textContent = old; b.classList.remove('done'); }, 1400);
+  };
+  return b;
+}
+
+function renderDna() {
+  const d = LIB.dna;
+  const panel = $('#dnaPanel');
+  if (!d) { panel.style.display = 'none'; return; }
+  const ul = $('#dnaConstants'); ul.innerHTML = '';
+  for (const c of d.constants) {
+    const li = el('li', null, c.rule);
+    if (c.evidence) li.appendChild(el('span', 'ev', c.evidence));
+    ul.appendChild(li);
+  }
+  const nv = $('#dnaNever'); nv.innerHTML = '';
+  for (const n of d.never) nv.appendChild(el('li', null, n));
+  $('#dnaFoot').textContent = d.description || '';
+}
+
+function renderFamilyPanel() {
+  const host = $('#famPanel');
+  host.innerHTML = '';
+  if (state.family === 'all') return;
+  const fam = LIB.style_families.find(f => f.id === state.family);
+  if (!fam) return;
+  const n = LIB.entries.filter(e => e.style_family === fam.id).length;
+
+  const p = el('div', 'fampanel');
+  const head = el('div', 'fhead');
+  head.appendChild(el('h3', null, fam.label));
+  head.appendChild(el('span', 'idx', `${n} ${n === 1 ? 'entry' : 'entries'}`));
+  p.appendChild(head);
+  p.appendChild(el('p', 'fdef', fam.definition));
+
+  const row = (label, text, cls) => {
+    const r = el('div', 'frow' + (cls ? ' ' + cls : ''));
+    r.appendChild(el('b', null, label));
+    r.appendChild(el('span', null, text));
+    p.appendChild(r);
+  };
+  if (fam.deploy_for) row('Deploy for', fam.deploy_for);
+  if (fam.risk) row('One risk', fam.risk, 'risk');
+
+  const acts = el('div', 'facts');
+  acts.appendChild(copyButton('Copy brief block', () => familyBrief(fam.id)));
+  if (fam.image_style) acts.appendChild(copyButton('Copy image style', fam.image_style, 'ghost'));
+  p.appendChild(acts);
+  host.appendChild(p);
+}
+
+function openModal(id) {
+  const e = LIB.entries.find(x => x.id === id);
+  if (!e) return;
+  state.open = id;
+  const m = $('#modal');
+  m.innerHTML = '';
+
+  const hero = el('div', 'hero');
+  const img = el('img');
+  img.src = e.source.screenshot;
+  img.alt = e.title;
+  img.onerror = () => { img.onerror = null; img.src = `images/thumbs/${e.id}.jpg`; };
+  hero.appendChild(img);
+  m.appendChild(hero);
+
+  const body = el('div', 'mbody');
+  const head = el('div', 'mhead');
+  const h2 = el('h2', null, e.title); h2.id = 'mTitle';
+  head.appendChild(h2);
+  if (e.formula) head.appendChild(el('div', 'formula', e.formula));
+  body.appendChild(head);
+  body.appendChild(el('div', 'desc', e.description));
+
+  const chips = el('div', 'chips mchips');
+  for (const t of entryTraits(e)) {
+    const c = el('button', 'chip', t);
+    c.type = 'button';
+    c.onclick = () => { state.trait = t; closeModal(); render(); };
+    chips.appendChild(c);
+  }
+  body.appendChild(chips);
+
+  const tk = e.tokens;
+  if (tk?.palette?.length) {
+    const sw = el('div', 'swatches');
+    for (const p of tk.palette) {
+      const s = el('div', 'sw');
+      const i = el('i'); i.style.background = p.hex; s.appendChild(i);
+      s.appendChild(el('b', null, p.hex));
+      s.appendChild(el('span', null, p.name || p.role));
+      sw.appendChild(s);
+    }
+    body.appendChild(section(`Palette — ${tk.extraction}`, sw));
+  }
+
+  if (tk) {
+    const dl = el('dl', 'tok');
+    const rows = [
+      ['Display', tk.typography?.display], ['Body', tk.typography?.body], ['Mono', tk.typography?.mono],
+      ['Layout', tk.layout], ['Texture', tk.texture], ['Motion', tk.motion],
+      ['Radius', tk.corner_radius], ['Density', tk.density],
+    ];
+    let any = false;
+    for (const [k, v] of rows) {
+      if (!v) continue;
+      any = true;
+      dl.appendChild(el('dt', null, k));
+      dl.appendChild(el('dd', null, v));
+    }
+    if (any) body.appendChild(section('Tokens', dl));
+  }
+
+  if (e.brief) body.appendChild(section('Brief', el('div', 'brief', e.brief)));
+
+  const r = e.image_recipe;
+  if (r) {
+    const box = el('div', 'recipe');
+    const bits = [r.target_platform, r.target_model].filter(Boolean).join(' ');
+    const spec = [bits, r.resolution, r.aspect_ratio].filter(Boolean).join(' @ ');
+    box.appendChild(el('div', 'rhead',
+      `IMAGE RECIPE${spec ? ' — ' + spec : ''}${r.subject_default ? ' — fill [SUBJECT]' : ''}`));
+    const p = el('div');
+    const parts = r.template.split(/\{\{subject\}\}/g);
+    parts.forEach((part, i) => {
+      p.appendChild(document.createTextNode(part));
+      if (i < parts.length - 1) {
+        const mk = el('mark', null, r.subject_default || 'SUBJECT');
+        p.appendChild(mk);
+      }
+    });
+    box.appendChild(p);
+    if (r.negatives?.length) box.appendChild(el('div', 'negs', 'AVOID — ' + r.negatives.join(' · ')));
+    body.appendChild(section('Image recipe', box));
+  }
+
+  const meta = e.meta || {};
+  const note = el('div', 'note');
+  const add = (label, val, missing) => {
+    const d = el('div');
+    d.style.marginBottom = '7px';
+    d.appendChild(el('b', null, label + ' '));
+    if (val) d.appendChild(document.createTextNode(val));
+    else { const s = el('span', 'missing', '— not filled in'); d.appendChild(s); }
+    note.appendChild(d);
+  };
+  add('Steal this:', meta.steal_this);
+  if (meta.avoid_this) add('Avoid:', meta.avoid_this);
+  if (meta.notes) add('Notes:', meta.notes);
+  if (e.source?.url) {
+    const d = el('div');
+    d.appendChild(el('b', null, 'Source: '));
+    const a = el('a', null, e.source.url);
+    a.href = e.source.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+    a.style.color = 'var(--rust)';
+    d.appendChild(a);
+    note.appendChild(d);
+  }
+  body.appendChild(section('Judgment', note));
+
+  const acts = el('div', 'actions');
+  acts.appendChild(copyButton('Copy brief', () => entryBrief(e)));
+  const ip = el('span');
+  ip.appendChild(r ? copyButton('Copy image prompt', () => filledPrompt(r))
+                   : Object.assign(el('button', 'btn', 'Copy image prompt'), { disabled: true, type: 'button' }));
+  acts.appendChild(ip);
+  acts.appendChild(copyButton('Copy family block', () => familyBrief(e.style_family), 'ghost'));
+
+  const nav = el('div', 'nav');
+  const list = LIB.entries.filter(matches);
+  const idx = list.findIndex(x => x.id === id);
+  const step = d => {
+    const n = list[(idx + d + list.length) % list.length];
+    if (n) openModal(n.id);
+  };
+  if (list.length > 1) {
+    const prev = el('button', 'btn ghost', '←'); prev.type = 'button'; prev.onclick = () => step(-1);
+    const next = el('button', 'btn ghost', '→'); next.type = 'button'; next.onclick = () => step(1);
+    nav.append(prev, next);
+  }
+  const close = el('button', 'btn ghost', 'Close'); close.type = 'button'; close.onclick = closeModal;
+  nav.appendChild(close);
+  acts.appendChild(nav);
+  body.appendChild(acts);
+
+  m.appendChild(body);
+  $('#backdrop').classList.add('on');
+  document.body.style.overflow = 'hidden';
+  close.focus();
+}
+
+function closeModal() {
+  state.open = null;
+  $('#backdrop').classList.remove('on');
+  document.body.style.overflow = '';
+}
+
+/* ---------- wiring ---------- */
+$('#backdrop').addEventListener('click', ev => { if (ev.target === $('#backdrop')) closeModal(); });
+$('#clearTrait').addEventListener('click', () => { state.trait = null; render(); });
+$('#search').addEventListener('input', ev => { state.q = ev.target.value.trim().toLowerCase(); render(); });
+document.addEventListener('keydown', ev => {
+  if (ev.key === 'Escape') { state.open ? closeModal() : ($('#search').value = '', state.q = '', render()); }
+  if (!state.open) return;
+  const list = LIB.entries.filter(matches);
+  const i = list.findIndex(x => x.id === state.open);
+  if (ev.key === 'ArrowRight' && list.length > 1) openModal(list[(i + 1) % list.length].id);
+  if (ev.key === 'ArrowLeft' && list.length > 1) openModal(list[(i - 1 + list.length) % list.length].id);
+});
+
+(async function init() {
+  try {
+    const [lib, vocab, local] = await Promise.all([
+      fetch('design-taste-library.json').then(r => r.json()),
+      fetch('vocabulary.json').then(r => r.json()),
+      // written by serve.py, absent under any other static server — not an error
+      fetch('local.json').then(r => r.ok ? r.json() : null).catch(() => null),
+    ]);
+    LIB = lib; VOCAB = vocab;
+    IMAGES_PATH = local?.images_path || lib.library?.images_path || '';
+    TRAIT_BY_KEY = buildTraitIndex(vocab);
+    renderDna();
+    const canon = vocab.traits.filter(t => t.status === 'canonical').length;
+    $('#stats').innerHTML =
+      `<b>${lib.entries.length}</b> entries &nbsp;·&nbsp; <b>${lib.style_families.length}</b> families &nbsp;·&nbsp; <b>${canon}</b> canonical traits`;
+    render();
+  } catch (err) {
+    $('#grid').innerHTML =
+      '<div class="empty">Could not load the library.<br><br>' +
+      'This page reads JSON over fetch(), which browsers block on file:// URLs.<br>' +
+      'Run <b>python3 -m http.server 8080</b> in this folder, then open ' +
+      '<b>http://localhost:8080</b>.</div>';
+    console.error(err);
+  }
+})();
+</script>
+</body>
+</html>
