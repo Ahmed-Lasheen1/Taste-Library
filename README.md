@@ -1,138 +1,119 @@
-# Design Taste Library
+# Taste Vault
 
-A local, zero-build gallery for curating web design references. Screenshots go in; a
-**controlled design vocabulary**, real colour tokens, and paste-ready build briefs come out.
+**Inspiration in, vocabulary out.** A local, zero-build design-taste gallery that turns screenshots of sites you love into objective design vocabulary, clustered collections, and paste-ready brief blocks for Claude Code.
 
-The problem it solves: "make it look good" gives a model nothing to aim at, so it regresses to
-the mean — purple gradients, glossy blobs, icon-grid feature rows. This turns taste you can
-recognise into language you can hand to a build.
+Built as the companion tool for the video **[Turn Claude Into A Design GENIUS In 3 Simple Steps](https://youtu.be/7FU98O0JLHs)**. This repo ships with my real vault — 28 entries across 7 collections plus my House DNA — so you can see the whole system working before you replace my taste with yours.
 
-```bash
-git clone <this-repo> && cd taste-vault
-python3 serve.py
-```
-
-That's it. No dependencies, no build step — one vanilla `index.html`. `serve.py` picks a free
-port, opens a browser, and writes `local.json` so copied briefs resolve reference images on your
-machine.
+![Example hero asset generated from a vault image recipe](generated/stillness-voxel-hero-2k.png)
 
 ---
 
-## What's in a brief
+## Why this exists
 
-Click a family pill → **Copy brief block**. You get one block assembling:
+AI has no taste. Left alone, Claude regresses to the mean: purple gradients, glossy SaaS blobs, Inter-only typography, icon-grid feature rows. Not because it can't do better — because "make it look good" gives it nothing to aim at.
 
-```
-AESTHETIC     the family, and when to deploy it
-VOCABULARY    every trait across its entries
-REFERENCES    each entry + an absolute path to its screenshot
-PALETTE       real hex values, marked measured or estimated
-HOUSE DNA     constants that hold regardless of the look
-NEVER         the anti-slop guardrail
-ONE RISK      a deliberate bold move, to avoid a safe average
-HERO ASSET    an image-gen recipe with a [SUBJECT] slot
-```
+The fix isn't a magic prompt. It's a **3-step process**, and the Taste Vault is Step 1:
 
-Paste it above your own **intent**, then work in a funnel: 5 versions across different
-aesthetics → 3 variations of the winner → 1 refined.
+### Step 1 — Curate taste *(this repo)*
 
-The per-entry **Copy brief** does the same for a single reference. **Copy image prompt** returns
-the entry's recipe with the subject filled in.
+You can't inject taste you haven't collected. Expose yourself to high-level web design (Dribbble, Pinterest, Twitter/X, awards sites), screenshot what stops you, and feed it into the vault. The ingest pipeline breaks every screenshot into:
 
-## Adding entries
+- **Objective vocabulary** — 5–8 promptable terms an expert would use ("halftone texture", "registration marks", "giant cropped wordmark"), never opinions
+- **A collection** — a distinct, deployable look ("Print-Tech Paper", "Dither Mono") it gets clustered into
+- **An image recipe** — an image-gen prompt that recreates the screenshot's hero *style* with the subject swapped out
+- **A stealable-idea note** — the single move worth taking from it
 
-Drop screenshots in `inbox/`, then in Claude Code:
+Over time the vault becomes your personal design language: collections you deploy per-project, over shared **House DNA** (constants + a never-list) that makes every page recognizably yours.
 
-```
-/taste-add
-```
+### Step 2 — Equip Claude with skills & tools
 
-The skill ships with the repo (`.claude/skills/taste-add/`). It reads the image, matches traits
-**against the existing vocabulary rather than inventing new ones**, pulls real CSS tokens when
-you give it a live URL, and writes a schema-valid entry. Given a video URL it will download the
-clip and diff frames to measure whether motion loops, plays once, or is scroll-linked.
+Out of the box, Claude Code doesn't critique its own spatial design or generate hero imagery. Give it:
 
-It deliberately leaves one field blank: `meta.steal_this`, the single move worth taking. That
-judgment is yours, and a generated answer looks done without being true.
+- **[Impeccable](https://github.com/pbakaus/impeccable)** — 23 design commands like `/bolder` / `/quieter` that critique and polish spacing, typography, and color
+- A **taste / anti-slop skill** — hunts for AI-slop tells and pushes stronger layouts
+- **Higgsfield MCP** (or any image-gen tool) — because Claude can't paint the background, and the hero image usually *is* the aesthetic
+- **[21st.dev](https://21st.dev)** — component prompts for buttons/cards so the UI details aren't boilerplate
+
+### Step 3 — The build sequence
+
+Never one-shot a design. Iterate in a funnel:
+
+1. **Cast wide** — ask Claude for **5 versions in 5 different aesthetic families** (pull family names from your vault's collections)
+2. **Narrow** — pick the direction you like, get **3 variations** of that aesthetic
+3. **Tinker** — pick the winner, generate the hero asset from the entry's image recipe, iterate details (a "tweaks bar" on the dev server makes font/size/accent iteration instant)
+
+Every build prompt has four parts: **Aesthetic + Reference image + Intent + Guardrails.** The Taste Vault hands you three of the four — that's what the **COPY BRIEF BLOCK** button assembles.
+
+---
+
+## Quick start
 
 ```bash
-python3 make-thumbs.py     # after adding entries
-python3 trait-lint.py      # check for vocabulary drift
+git clone https://github.com/cth9191/taste-vault.git
+cd taste-vault
+python -m http.server 4610      # or serve.bat on Windows, or any static server
+# open http://localhost:4610
 ```
 
-## Why the vocabulary is controlled
+Any static server works — `fetch()` needs `http://`, not `file://`. No build step, no dependencies: the app is one vanilla `index.html`.
 
-Free-text tags fragment. Left alone you write `warm paper ground` on one entry and
-`warm paper background` on another, and a filter that should surface both surfaces neither.
+**For ingesting your own screenshots** you additionally need:
 
-`vocabulary.json` prevents that with four mechanisms:
+- [Node.js](https://nodejs.org) (the ingest script)
+- [Claude Code](https://claude.com/claude-code) CLI on your PATH (the vision extraction runs through `claude -p`)
 
-| | |
-|---|---|
-| **Facets** | 7 groups (colour, type, layout, component, imagery, texture, motion) so matching compares ~a dozen candidates, not all of them |
-| **Aliases** | every rejected phrasing is recorded, so that mistake can never split the bucket again |
-| **Promotion** | a trait becomes `canonical` on its second use; single-use traits are notes, not categories |
-| **`trait-lint.py`** | flags unknown traits, near-duplicates, and singletons; `--fix` rewrites aliases |
+---
 
-Run the linter over any free-text tag set and you'll see why — near-duplicate pairs pile up fast.
+## Using the vault in a project
+
+1. Open the gallery and pick the collection matching the project's soul (each collection lists what it **deploys for**)
+2. Click **COPY BRIEF BLOCK** — it assembles: collection vocabulary + reference entries + House DNA constants + never-list + a one-risk suggestion + hero-asset instruction
+3. Paste it at the top of your Claude Code prompt, add your **intent** (what the site is for), and run the Step-3 funnel
+
+The entry modal has two more buttons:
+
+- **COPY BRIEF** — a single-entry brief with the local screenshot path included so Claude Code can read the reference image directly
+- **COPY IMAGE PROMPT** — the entry's image recipe; replace `[SUBJECT: ...]` with your product's subject, generate at 2K (I use Higgsfield `gpt_image_2`), and hand the asset to Claude Code alongside the brief
+
+## Ingesting your own inspiration
+
+```bash
+node ingest.js "C:\path\to\screenshot.png" [more paths...]
+```
+
+Each image is copied into `images/`, run through `claude -p` vision extraction, and merged into `data/gallery.json` — assigned to an existing collection, or seeding a **new** collection when it genuinely fits none. Refresh the page after.
 
 ## Making it yours
 
-The repo ships with a working library so you can see the system running. To start your own:
+The repo ships with my taste as a working demo. To start your own vault:
 
-1. Set `library.owner` in `design-taste-library.json`
-2. Rewrite `dna.constants` and `dna.never` — **the never-list matters as much as the constants**,
-   and both should come from your eye, not mine
-3. Either keep the families as starting points, or reset: `"entries": []` and
-   `"style_families": []`
-4. Delete `images/*.png` and `images/thumbs/*.jpg` for a clean slate
+1. Open `data/gallery.json`
+2. Set `meta.owner` to your name and `meta.imagesPath` to the **absolute path** of this repo's `images/` folder on your machine (used so pasted briefs resolve the reference screenshot from any project directory)
+3. Either keep my collections as starting points, or reset: set `"entries": []` and `"collections": []`, then rewrite `dna.constants` and `dna.never` for your own eye — the never-list matters as much as the constants
+4. Delete my screenshots from `images/` if you want a clean slate, then ingest your own
 
-Editing `design-taste-library.json` by hand is always fine — it's the source of truth. Validate
-with any JSON Schema tool against `design-taste-library.schema.json`.
+Editing `data/gallery.json` by hand is always fine — it's the source of truth. Re-cluster by changing an entry's `collection`.
 
-**Seed the vocabulary in bulk, not incrementally.** Tag your first ~15 entries freely, then do a
-single consolidation pass over all of them. Categories only become visible in aggregate; minting
-them one at a time bakes in bad early terms.
+`data/styles.json` powers the **◈ REFERENCE STYLES** tab: the standard aesthetic families of the modern web (editorial minimalism, warm editorial, brutalism, …), each with recognition cues, vocabulary, canonical example sites, and its own COPY BRIEF button — borrowed language for looks your own inspo doesn't cover yet.
 
-## Files
+## Structure
 
 ```
-index.html                    the whole app — vanilla JS, no build
-design-taste-library.json     entries + families + House DNA — source of truth
-design-taste-library.schema.json   structure contract (JSON Schema 2020-12)
-vocabulary.json               controlled traits: facets, aliases, status
-trait-lint.py                 drift checker
-make-thumbs.py                grid thumbnails from the full captures
-serve.py                      static server + local.json writer
-.claude/skills/taste-add/     the ingestion skill
-images/                       captures; thumbs/ are generated
-inbox/                        drop zone for unprocessed screenshots
+index.html          # the whole app (vanilla JS, no build)
+data/gallery.json   # entries + collections + House DNA — the taste database
+data/styles.json    # reference aesthetic families of the modern web
+images/             # slugged screenshot copies (the demo seed set)
+generated/          # example hero assets produced from image recipes
+ingest.js           # claude -p vision extraction pipeline
+serve.bat           # Windows one-click server
 ```
 
 ## Data model
 
-- **entry** — `id, title, formula, description, style_family, kind, platform, source, traits[],
-  tokens, brief, image_recipe, meta`
-- **`kind`** — `shipped` · `concept` · `mine`. Most Dribbble work is `concept`: beautiful and
-  frequently unbuildable. Never prompt a production layout from an unlabelled concept.
-- **`tokens.extraction`** — `measured` (read from live CSS) or `estimated` (read off pixels).
-  Worth distinguishing: on the one entry measured after being estimated, every hex was wrong
-  while every trait was right.
-- **family** — `definition` (what it looks like), `deploy_for` (when to reach for it), `risk`,
-  `image_style`
-- **dna** — `constants[]` with evidence counts + `never[]`, appended to every brief
+- **entry** — one screenshot → `id, file, title, collection, family, vocabulary[], note, imageRecipe, heroUsage, added`
+- **collection** — a deployable look → `vocabulary` block, `deployFor`, `risk` suggestion, `accent`, collection-level `imageStyle` template
+- **dna** — `constants[]` + `never[]`, appended to every brief
 
-## Credit
+## License
 
-The concept is Chase's — see [Turn Claude Into A Design GENIUS In 3 Simple
-Steps](https://youtu.be/7FU98O0JLHs) and [cth9191/taste-vault](https://github.com/cth9191/taste-vault),
-which is MIT licensed. House DNA, `deploy_for`, the collection-level brief block, and embedding
-image paths in briefs are all borrowed from it. The controlled vocabulary, design tokens, schema
-validation, provenance tracking, and motion measurement are additions.
-
-## Licence & the screenshots
-
-Code is MIT. The screenshots in `images/` are of third-party websites, kept as personal design
-references — **all rights to those designs remain with their creators**. Several are concept work
-by their designers rather than shipped products; `source.attribution` credits them where known.
-Swap them for your own inspiration.
+MIT — see [LICENSE](LICENSE). The screenshots in `images/` are of third-party websites, included as personal design references; all rights to those designs remain with their creators. Swap them for your own inspiration.
